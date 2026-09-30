@@ -2,14 +2,11 @@
 
 A governed MCP surface you can deploy in one click, with **no credentials, no database and no external services**.
 
-> **Deploying:** the one-click Railway template is being published. Until the
-> button appears below, `railway.json` and `Dockerfile` are in this repository —
-> point Railway at it and it builds as-is, with no environment variables to set.
-> See [Run it locally](#run-it-locally) to try it without deploying anything.
+[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy/tcpcore-demo?referralCode=Sv4YlP&utm_medium=integration&utm_source=template&utm_campaign=generic)
 
-<!-- Deploy button. Uncomment and insert the template id once published:
-[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/TEMPLATE_ID)
--->
+Deploying takes about a minute. There is nothing to configure and no environment
+variables to set — the template provisions the service, builds the image, and
+gives you a public URL running the governance kernel over a mock backend.
 
 ---
 
