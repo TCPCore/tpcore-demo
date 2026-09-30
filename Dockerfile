@@ -1,5 +1,9 @@
 # TCPcore demo template.
 #
+# Build revision 2 — bumped to invalidate any cached image layer. The previous
+# deploy kept running an image built from an earlier commit, so the entrypoint's
+# diagnostics never appeared in the logs.
+#
 # One container, no database, no Redis, no credentials. It runs three processes:
 # an in-memory mock backend, the governance kernel, and a landing server that
 # serves the public index and proxies to the kernel.

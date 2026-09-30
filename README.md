@@ -2,7 +2,14 @@
 
 A governed MCP surface you can deploy in one click, with **no credentials, no database and no external services**.
 
-[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/REPLACE_WITH_TEMPLATE_ID)
+> **Deploying:** the one-click Railway template is being published. Until the
+> button appears below, `railway.json` and `Dockerfile` are in this repository —
+> point Railway at it and it builds as-is, with no environment variables to set.
+> See [Run it locally](#run-it-locally) to try it without deploying anything.
+
+<!-- Deploy button. Uncomment and insert the template id once published:
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/TEMPLATE_ID)
+-->
 
 ---
 
@@ -88,7 +95,9 @@ The kernel **flags** the content rather than deleting it — an operator usually
 
 ### Point a real MCP client at it
 
-Add `https://YOUR-APP.up.railway.app/api/mcp` to Cursor or Claude Desktop. The tool list an agent receives contains only what agents are permitted to reach: `delete_ticket` is withheld entirely, not merely blocked.
+Add `https://YOUR-APP.up.railway.app/api/mcp` to Cursor or Claude Desktop. The
+tool list an agent receives contains only what agents are permitted to reach:
+`delete_ticket` is withheld entirely, not merely blocked.
 
 ## What this demonstrates
 
@@ -99,7 +108,18 @@ Add `https://YOUR-APP.up.railway.app/api/mcp` to Cursor or Claude Desktop. The t
 | `risk: high` + `agent_forbidden: true` | Not exposed to agents at all |
 | `content_risk` | Response is scanned before an agent can read it |
 
-The kernel's central invariant is that **every agent-originated call reaches an integration through exactly one function**. There is no other path, which is why the risk gate, audit trail and credential broker cannot be bypassed — there is nowhere to bypass them from.
+**A note on what the index page shows.** It lists every capability that is
+*loaded*, including the `agent_forbidden` ones — and the agent tool list at
+`/api/mcp/tools` lists only seven of the nine. That difference is the point, but
+it is easy to misread, so: the index is the **operator's** view of what is
+configured. `demo.delete_ticket` appears there because an operator needs to see
+their own policy. It does **not** appear to an agent, in either the tool list or
+over the MCP transport, and invoking it is refused.
+
+The kernel's central invariant is that **every agent-originated call reaches an
+integration through exactly one function**. There is no other path, which is why
+the risk gate, audit trail and credential broker cannot be bypassed — there is
+nowhere to bypass them from.
 
 ## Run it locally
 
