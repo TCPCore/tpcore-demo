@@ -1,0 +1,51 @@
+name: demo
+display_name: Demo Ticket Manager
+base_url: http://127.0.0.1:4001
+auth:
+  type: none
+
+# The mock backend is inside this container, so `auth: none` is honest here
+# rather than a shortcut: there is no credential to hold and nothing external
+# to authenticate against.
+capabilities:
+  - name: get_ticket
+    method: GET
+    path: /tickets/{id}
+    description: Retrieve a support ticket by ID.
+    risk: low
+    input:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Ticket identifier, e.g. T-1
+      required: [id]
+
+  - name: set_priority
+    method: PATCH
+    path: /tickets/{id}
+    description: Set a ticket's priority. A write, so a human approves the exact payload first.
+    risk: medium
+    approval_required: true
+    input:
+      type: object
+      properties:
+        id:
+          type: string
+        priority:
+          type: string
+          enum: [LOW, MEDIUM, HIGH, URGENT]
+      required: [id, priority]
+
+  - name: delete_ticket
+    method: DELETE
+    path: /tickets/{id}
+    description: Permanently delete a ticket. Irreversible, so agents cannot even propose it.
+    risk: high
+    agent_forbidden: true
+    input:
+      type: object
+      properties:
+        id:
+          type: string
+      required: [id]

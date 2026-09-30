@@ -1,0 +1,26 @@
+name: demo-content
+display_name: Demo Content (untrusted text)
+base_url: http://127.0.0.1:4001
+auth:
+  type: none
+
+# This adapter exists to make the prompt-injection sanitiser visible.
+#
+# `content_risk` marks capabilities whose *responses* carry third-party free
+# text. The kernel scans those payloads before an agent can read them, which is
+# the distinction most MCP servers do not make. NOTE-1 in the mock backend
+# contains a real injection string, so the sanitiser has something to catch.
+capabilities:
+  - name: get_note
+    method: GET
+    path: /notes/{id}
+    description: Retrieve a note containing external free text. The response is treated as untrusted and scanned before an agent sees it.
+    risk: low
+    content_risk: high
+    input:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Note identifier, e.g. NOTE-1
+      required: [id]

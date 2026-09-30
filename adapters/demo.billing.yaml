@@ -1,0 +1,36 @@
+name: demo-billing
+display_name: Demo Billing
+base_url: http://127.0.0.1:4001
+auth:
+  type: none
+
+capabilities:
+  - name: get_charge
+    method: GET
+    path: /charges/{id}
+    description: Retrieve a charge, including amount, currency and refund status.
+    risk: low
+    input:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Charge identifier, e.g. CH-1
+      required: [id]
+
+  - name: create_refund
+    method: POST
+    path: /refunds
+    description: Issue a refund against a settled charge. Moves money, so a human authorizes it.
+    risk: medium
+    approval_required: true
+    input:
+      type: object
+      properties:
+        chargeId:
+          type: string
+        amount:
+          type: integer
+          minimum: 1
+          description: Amount in the smallest currency unit (cents), e.g. 4900 for $49.00
+      required: [chargeId, amount]

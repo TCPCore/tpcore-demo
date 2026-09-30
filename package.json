@@ -1,0 +1,21 @@
+{
+  "name": "tpcore-demo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Self-contained TCPcore demo — a governed MCP surface with a local mock backend. No credentials required.",
+  "license": "MIT",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TCPCore/tpcore-demo.git"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "./entrypoint.sh",
+    "mock": "node mock-server.js",
+    "serve": "tcpctl serve adapters/demo.tickets.yaml adapters/demo.crm.yaml adapters/demo.billing.yaml adapters/demo.content.yaml --port 8081",
+    "verify": "node verify-demo.mjs"
+  }
+}

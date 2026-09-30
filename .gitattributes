@@ -1,0 +1,24 @@
+# Normalise line endings.
+#
+# This matters more here than in most repositories: `entrypoint.sh` is executed
+# by the shell inside the container, and a CRLF shebang fails with
+# "bad interpreter: No such file or directory" — a confusing error whose cause is
+# invisible in the file itself.
+#
+# Pinning LF in the repository means the image gets the same bytes regardless of
+# which platform last edited a file.
+
+* text=auto eol=lf
+
+*.sh   text eol=lf
+*.js   text eol=lf
+*.mjs  text eol=lf
+*.json text eol=lf
+*.md   text eol=lf
+*.yaml text eol=lf
+*.yml  text eol=lf
+
+# No binaries in this repository today; declared so a future one cannot be
+# line-ending converted.
+*.png binary
+*.jpg binary

@@ -1,0 +1,48 @@
+name: demo-crm
+display_name: Demo CRM
+base_url: http://127.0.0.1:4001
+auth:
+  type: none
+
+capabilities:
+  - name: get_opportunity
+    method: GET
+    path: /opportunities/{id}
+    description: Retrieve a sales opportunity, including its pipeline stage and amount.
+    risk: low
+    input:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Opportunity identifier, e.g. OPP-1
+      required: [id]
+
+  - name: advance_stage
+    method: PATCH
+    path: /opportunities/{id}
+    description: Move an opportunity to a new pipeline stage. Affects revenue reporting, so it is approved by a human.
+    risk: medium
+    approval_required: true
+    input:
+      type: object
+      properties:
+        id:
+          type: string
+        stage:
+          type: string
+          enum: [Prospecting, Qualification, Closed Won]
+      required: [id, stage]
+
+  - name: delete_opportunity
+    method: DELETE
+    path: /opportunities/{id}
+    description: Permanently delete an opportunity and its history.
+    risk: high
+    agent_forbidden: true
+    input:
+      type: object
+      properties:
+        id:
+          type: string
+      required: [id]
