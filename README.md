@@ -15,7 +15,14 @@ A governed MCP surface you can deploy in one click, with **no credentials, no da
 
 ## What this is
 
-[TCPcore](https://github.com/TCPCore/core) is an MIT-licensed governance kernel that sits between AI agents and any API. You declare your capabilities in YAML and get agent identity, risk tiers, a human approval queue and an audit trail.
+**TCPcore puts a governance boundary between your agents and every API they can
+reach. Declared capabilities only. Risk-tiered execution. Human approval for
+anything consequential. Credential brokering so no agent ever holds a key. And a
+complete audit trail of every call, every decision, and every denial.**
+
+[TCPcore](https://github.com/TCPCore/core) is an MIT-licensed governance kernel
+that sits between AI agents and any API. You declare your capabilities in YAML
+and get agent identity, risk tiers, a human approval queue and an audit trail.
 
 This repository is a **self-contained demonstration** of that kernel. It ships:
 
@@ -25,6 +32,11 @@ This repository is a **self-contained demonstration** of that kernel. It ships:
 - a **landing page** that lists what loaded and explains what you are looking at
 
 Everything is in one container. Nothing calls out to the network.
+
+**TCPcore governs every call an agent makes to a declared API. It cannot govern
+the agent's reasoning, and it does not try.** What it can do is make sure that
+whatever the agent decides, the call either stays within declared bounds, goes to
+a human, or is refused — and that every outcome is recorded.
 
 ## Deploy it
 
@@ -92,6 +104,12 @@ curl -X POST https://YOUR-APP.up.railway.app/api/capabilities/demo-content.get_n
 ```
 
 The kernel **flags** the content rather than deleting it — an operator usually needs to see what arrived, and silently stripping text loses evidence. `NOTE-2` is benign and passes with no signals, so the detector is not simply crying wolf.
+
+**This is detection, not prevention.** A determined injection can still influence
+an agent, and TCPcore does not claim otherwise. What changes is that the influence
+is *visible* — the response is labelled, the signals are recorded in the audit
+trail, and whatever the agent decides next still has to pass the risk gate to
+reach a declared API.
 
 ### Point a real MCP client at it
 
@@ -170,6 +188,7 @@ The kernel is deliberately **not** the public listener. `tcpctl serve` has no ro
 
 This is a **demonstration**, not a deployment template for production:
 
+- **The boundary is declared calls only.** Everything shown here is what TCPcore governs: calls an agent makes to a *declared* integration. The agent's reasoning, its memory, its tool selection and any network path that does not route through the kernel are all out of scope, and this demo does not pretend otherwise.
 - **Identity is a header, not authentication.** The kernel prints a development-mode warning at startup for exactly this reason. Every tool here is world-callable. Use it to evaluate the governance model, not to guard anything real.
 - **State is in memory.** The audit trail and approval queue reset when the container restarts. The kernel's storage is an injectable port; the self-hosted server injects a durable one.
 - **The backend is a mock.** It exists so the demo needs no credentials. Real integrations live in the [adapter gallery](https://github.com/TCPCore/core/tree/main/adapters).
