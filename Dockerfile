@@ -10,9 +10,11 @@
 
 FROM node:22-alpine
 
-# Pinned to a major so the template does not silently change behaviour underneath
-# a running deployment.
-RUN npm install -g @tcpcore1/cli@0.1
+# Pinned to a minor so the template does not silently change behaviour underneath
+# a running deployment. 0.2 adds the PostgreSQL-backed store and the
+# `tcpctl serve --store postgres` flag; this image stays on the in-memory default,
+# so it still needs no database.
+RUN npm install -g @tcpcore1/cli@0.2
 
 WORKDIR /app
 
